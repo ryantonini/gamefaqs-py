@@ -30,5 +30,11 @@ or installable via ``git clone`` and ``setup.py``
     git clone git@github.com:ryantonini/gamefaqs-py.git
     sudo python setup.py install
 
+After installation, run the following python script in your project files directory:
+
+::
+
+    python load_data.py
+    
 Usage
 -----
