@@ -1,7 +1,18 @@
 GameFaqsPY
 ========
 
-Magic decorator syntax for asynchronous code in Python
+GameFaqsPY is a python package useful to retrieve and manage game data from the GameFAQS website.  The package is written in pure python and provides the following game information:
+
+* Title
+* Description
+* Platform
+* Release Date
+* Companies
+* ESRB Rating
+* Metascore
+* User Rating (/5)
+* Difficulty
+* Length (hr)
 
 Installation
 ------------
