@@ -21,7 +21,7 @@ GameFaqsPY is conveniently available via pip:
 
 ::
 
-    pip install GameFaqsPY
+    pip install gamefaqs-py
 
 or installable via ``git clone`` and ``setup.py``
 
