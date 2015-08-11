@@ -38,7 +38,7 @@ Usage
 A code example:
 
 ```python
-    from gamefaqspy import access
+    from gamefaqs import access
     gf_access = access.GameFaqs()
     
     peace_walker = gf_access.searchGame("Metal Gear Solid: Peace Walker")[0]
