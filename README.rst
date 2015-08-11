@@ -16,7 +16,7 @@ or installable via ``git clone`` and ``setup.py``
 
 ::
 
-    git clone git@github.com:madisonmay/Tomorrow.git
+    git clone git@github.com:ryantonini/gamefaqs-py.git
     sudo python setup.py install
 
 Usage
