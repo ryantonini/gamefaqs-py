@@ -36,5 +36,7 @@ After installation, run the following python script in your project files direct
 
     python load_data.py
     
+The script will create a SQLite Database File in the current working directory loaded with data from http://www.gamefaqs.com/.
+
 Usage
 -----
