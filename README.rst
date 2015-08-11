@@ -40,3 +40,22 @@ The script will create a SQLite database file in the current working directory l
 
 Usage
 -----
+
+A code example:
+
+.. code:: python
+
+    from gamefaqspy import access
+    gf_access = Access()
+    
+    peace_walker = gf_access.searchGame("Metal Gear Solid: Peace Walker")[0]
+    print peace_walker
+    
+    for game in gf_access.searchByCompany("Akella"):
+        print game["title"], game["platform"], game["release_date"]
+
+License
+-------
+
+GNU General Public License Version 3.  See LICENSE for more details.
+    
