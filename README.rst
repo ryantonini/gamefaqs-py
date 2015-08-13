@@ -30,13 +30,13 @@ or installable via ``git clone`` and ``setup.py``
     git clone https://github.com/ryantonini/gamefaqs-py
     sudo python setup.py install
 
-After installation, execute the `run_load.py` script via: 
+After installation, execute the ``run_load.py`` script via: 
 
 ::
 
     python {FILE_PATH}/run_load.py
     
-The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.  The {FILE_PATH} is the PATHNAME to the location of the `run_load.py` file on your computers file system.   
+The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.  The ``{FILE_PATH}`` is the PATHNAME to the location of the ``run_load.py`` file on your computers file system.   
 
 If your working in a UNIX environment, you can find the file PATH via:
 
