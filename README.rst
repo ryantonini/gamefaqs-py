@@ -32,7 +32,7 @@ or installable via ``git clone`` and ``setup.py``
 
 After installation, you will have to run the `run_load.py` script.  The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.  
 
-If your working in a UNIX environment, you can find the PATH via:
+If your working in a UNIX environment, you can find the file PATH via:
 
 ::
 
