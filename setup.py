@@ -1,23 +1,17 @@
 from distutils.core import setup
-from codecs import open
-from os import path
+ 
+LONG_DESCRIPTION = open('README.rst').read()
 
-here = path.abspath(path.dirname(__file__))
-
-# Get the long description from the relevant file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
-    
 setup(
     name='gamefaqs-py',
-    version='0.1.1',
+    version='0.2.3',
     author='Ryan Tonini',
     author_email ='ryantonini@yahoo.com',
     packages=['gamefaqs'],
     url='https://github.com/ryantonini/gamefaqs-py',
-    license='GPLv3 (see LICENSE)',
+    license=' GNU General Public License v3.0',
     description='Retrieve and manage game data from GameFAQS.',
-    long_description=long_description,
-    package_data={'gamefaqs': ['data/dump.sql']},
-    scripts=['gamefaqs/scripts/load_data.py']
+    long_description=LONG_DESCRIPTION,
+    package_data={'gamefaqs': ['data/*.sql']},
+    scripts=['scripts/run_load.py']
 )
