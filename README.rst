@@ -27,16 +27,22 @@ or installable via ``git clone`` and ``setup.py``
 
 ::
 
-    git clone git@github.com:ryantonini/gamefaqs-py.git
+    git clone https://github.com/ryantonini/gamefaqs-py
     sudo python setup.py install
 
-After installation, run the following python script in your project files directory:
+After installation, you will have to run the `run_load.py` script.  The script will create a SQLite database file in the current working directory loaded with data from http://www.gamefaqs.com/.  
+
+If your working in a UNIX environment, you can find the PATH via:
 
 ::
 
-    python load_data.py
+    mdfind "run_load.py"
     
-The script will create a SQLite database file in the current working directory loaded with data from http://www.gamefaqs.com/.
+If your working in a Virtual Environment, then you can run the script via:
+
+::
+    
+    python ./venv/bin/run_load.py
 
 Usage
 -----
@@ -52,7 +58,7 @@ A code example:
     print peace_walker
     
     for game in gf_access.searchByCompany("Akella"):
-        print game["title"], game["platform"], game["release_date"]
+        print game.data["title"], game.data["platform"], game.data["release_date"]
 
 License
 -------
