@@ -44,12 +44,6 @@ If your working in a UNIX environment, you can find the file PATH via:
 
     mdfind "run_load.py"
     
-If your working in a Virtual Environment, then you can run the script via:
-
-::
-    
-    python ./venv/bin/run_load.py
-
 Usage
 -----
 
