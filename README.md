@@ -13,6 +13,8 @@ GameFaqsPY is a python package useful to retrieve and manage game data from the 
 * User Rating (/5)
 * Difficulty
 * Length (hr)
+* Unlockables
+* Cheat Codes
 
 Installation
 ------------
@@ -23,18 +25,8 @@ GameFaqsPY is conveniently available via pip:
 
 or installable via ``git clone`` and ``setup.py``
 
-    git clone git@github.com:ryantonini/gamefaqs-py.git
+    git clone https://github.com/ryantonini/gamefaqs-py
     sudo python setup.py install
-
-After installation, execute the ``run_load.py`` script via: 
-
-    python {FILE_PATH}/run_load.py
-    
-The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.  The ``{FILE_PATH}`` is the PATHNAME to the location of the ``run_load.py`` file on your computers file system.   
-
-If your working in a UNIX environment, you can find the file PATH via:
-
-    mdfind "run_load.py"
 
 Usage
 -----
@@ -45,11 +37,17 @@ A code example:
     from gamefaqs import access
     gf_access = access.GameFaqs()
     
-    peace_walker = gf_access.searchGame("Metal Gear Solid: Peace Walker")[0]
-    print peace_walker
+    first_game = gf_access.search_game("Metal Gear Solid: Peace Walker")[0]
+    first_game.summary()
     
-    for game in gf_access.searchByCompany("Akella"):
-        print game.data["title"], game.data["platform"], game.data["release_date"]
+    gf_access.update(first_game, info=["general", "rating"])
+    print first_game["esrb"]
+    print first_game["metascore"]
+    
+    first_company = gf_access.search_company("Microsoft")[0]
+    gf_access.update(first_company)
+    print first_company["name"]
+    print first_company["games"]
 ```
 
 License
