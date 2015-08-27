@@ -45,6 +45,8 @@ A code example:
     print first_game["metascore"]
     
     first_company = gf_access.search_company("Microsoft")[0]
+    first_company.summary()
+    
     gf_access.update(first_company)
     print first_company["name"]
     print first_company["games"]
