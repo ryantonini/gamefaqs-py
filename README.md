@@ -25,7 +25,7 @@ GameFaqsPY is conveniently available via pip:
 
 or installable via ``git clone`` and ``setup.py``
 
-    git clone https://github.com/ryantonini/gamefaqs-py
+    git clone https://github.com/ryantonini/gamefaqs-py.git
     sudo python setup.py install
 
 Usage
