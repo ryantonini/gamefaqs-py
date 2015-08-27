@@ -35,7 +35,7 @@ def GameFaqs(access_system="http"):
     
     Supported access systems: (default) "http" and "sql".
     
-    NOTE: The "sql" access system has yet to implemmented.
+    NOTE: The "sql" access system has yet to be implemmented.
     """
     if access_system == "sql":
         gf_access = GameFaqsDB()
