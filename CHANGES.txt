@@ -2,3 +2,4 @@ v0.1.0, August 10 2015 -- Initial release.
 v0.1.3, August 10 2015 -- Fixed bug with long description in setup.py.  Added MANIFEST.in file.
 v0.2.3, August 12 2015 -- Fixed path settings in load.py so it can locate the dump.sql file.  Pip install works successfully.
 v0.2.4, August 27 2015 -- Major package revision.  Removed all post install script files.  Added user support for http requests.  New game features are now accessible via the api: Unlockables, Codes, Company.  Database support (MySql/Sqlite) pending. 
+v0.2.5, September 1 2015 -- Added SQLite3 Database Support.  Complete data yet to be uploaded. 
