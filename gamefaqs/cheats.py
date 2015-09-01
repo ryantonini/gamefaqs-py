@@ -26,7 +26,7 @@ class Unlockable(object):
         self.how_to = how_to
     
     def __repr__(self):
-        return "Unlockable({un})".format(un=self.unlockable)
+        return "<Unlockable: {un}>".format(un=self.unlockable)
     
     def __str__(self):
         return "Unlockable({un})".format(un=self.unlockable)
@@ -44,7 +44,7 @@ class Code(object):
         self.code = code
         
     def __repr__(self):
-        return "Code({ef})".format(ef=self.effect)
+        return "<Code: {ef}>".format(ef=self.effect)
     
     def __str__(self):
         return "Code({ef})".format(ef=self.effect)
