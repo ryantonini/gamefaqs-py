@@ -1,0 +1,44 @@
+CREATE TABLE INFO (
+		gID INTEGER PRIMARY KEY autoincrement NOT NULL,
+		title VARCHAR(165) NOT NULL,
+		description TEXT,
+		platform VARCHAR(50),
+        platform_long VARCHAR(50),
+		release_date VARCHAR(50),
+		esrb VARCHAR(15),
+		url VARCHAR(225));
+
+CREATE TABLE RATING (
+		gID INTEGER PRIMARY KEY NOT NULL,
+		metascore VARCHAR(50),
+		user_rating VARCHAR(50),
+		difficulty VARCHAR(50),
+		length VARCHAR(50),
+		FOREIGN KEY(gID) REFERENCES INFO(gID));
+
+CREATE TABLE CODES (
+      	gID INTEGER NOT NULL,
+      	effect VARCHAR(100),
+      	code VARCHAR(100),
+      	PRIMARY KEY (gID, effect),
+	  	FOREIGN KEY(gID) REFERENCES INFO(gID));
+
+CREATE TABLE UNLOCKABLES (
+      	gID INTEGER NOT NULL,
+      	unlockable VARCHAR(100),
+      	howto VARCHAR(100),
+      	PRIMARY KEY (gID, unlockable, howto),
+		FOREIGN KEY(gID) REFERENCES INFO(gID));
+
+CREATE TABLE COMPANY (
+		cID INTEGER PRIMARY KEY autoincrement NOT NULL,
+		company_name VARCHAR(60) NOT NULL,
+		url VARCHAR(225),
+        website VARCHAR(225));
+
+CREATE TABLE LINK (
+     	gID INTEGER NOT NULL,
+     	cID INTEGER NOT NULL,
+		FOREIGN KEY(gID) REFERENCES INFO(gID),
+		FOREIGN KEY(cID) REFERENCES COMPANY(cID),
+     	PRIMARY KEY (gID, cID));
