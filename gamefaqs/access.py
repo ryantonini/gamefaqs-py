@@ -16,11 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import sqlite3
 
 import helper
 import company
 import game
 import info
+import cheats
 
 # specifies the category of games returned from search
 search_matches = ["Best Matches"]
@@ -30,12 +32,10 @@ def GameFaqs(access_system="http"):
     
     The 'access_system' keyword argument must be a string representing the type
     of data access you want to use.  There are different systems to access
-    gamefaqs data: fetch data from the web server directly or fetch from the
-    online mysql database.
+    gamefaqs data: fetch data from the web server directly or reference a local 
+    sqlite database file.
     
     Supported access systems: (default) "http" and "sql".
-    
-    NOTE: The "sql" access system has yet to be implemmented.
     """
     if access_system == "sql":
         gf_access = GameFaqsDB()
@@ -155,11 +155,183 @@ class GameFaqsBase(object):
         return games_list
             
             
-class GameFaqsDB(object):
+class GameFaqsDB(GameFaqsBase):
     """The class is used to search for a Game/Company and get a Game/Company 
-    object using mysql database."""
-    #YET TO BE IMPLEMENTED
-    pass
+    object using a sqlite database.  If the data is not found in the sqlite 
+    database file, it is obtained via http/web server."""
+    
+    def __init__(self):
+        """Connect to the db."""
+        super(GameFaqsDB, self).__init__()
+        self.db = sqlite3.connect("gamefaqs.db")
+        self.cursor = self.db.cursor()
+    
+    def _insert(self, game):
+        """Add game object to database."""
+        try:
+            # execute sql commands
+            self.cursor.execute("""INSERT INTO INFO(title, description, platform,  
+                                platform_long, release_date, esrb, url) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?)""", 
+                                (game["title"], game["description"], game["platform"], 
+                                 game["platform_long"], game["release_date"], 
+                                    game["esrb"], game.url))
+            # get gID
+            game_id = self.cursor.lastrowid
+            self.cursor.execute("""INSERT INTO RATING(gID, metascore, user_rating,
+                                difficulty, length) VALUES (?, ?, ?, ?, ?)""",
+                              (game_id, game["metascore"], game["user_rating"], 
+                               game["difficulty"], game["length"]))
+            for code in game["codes"]:    
+                self.cursor.execute("""INSERT INTO CODES(gID, effect, code)
+                                  VALUES (?, ?, ?)""", (game_id, code.effect, code.code))
+            for unlockable in game["unlockables"]:
+                self.cursor.execute("""INSERT INTO UNLOCKABLES(gID, unlockable, howto)
+                                  VALUES (?, ?, ?)""", (game_id, unlockable.unlockable, 
+                                                        unlockable.how_to))
+            for co in game['companies']:
+                self.cursor.execute("""INSERT INTO COMPANY(company_name, url)
+                                    VALUES (?, ?)""", (co["name"], co.url))
+                # get cID
+                company_id = self.cursor.lastrowid
+                self.cursor.execute("""INSERT INTO LINK(gID, cID) VALUES (?, ?)""",
+                                     (game_id, company_id))   
+            # commit changes in the database (either commit all or none)
+            self.db.commit()
+        except Exception, e:
+            # for debugging
+            print "Database Upload Failed. Game: ", game
+            print str(e)
+            # rollback in case of an error
+            self.db.rollback()
+    
+    def search_game(self, title, override_db=False):
+        """Check local database for game.  If not found, get from web server.
+        
+        If override_db is False (default), then a database search is performed, 
+        followed by a web based search (if the database search produced no 
+        matches).  If override_db is True, then a web based search is performed
+        in place of the database search.
+        """
+        games_list = []
+        if not override_db:
+            self.cursor.execute("SELECT * FROM Info WHERE title = ?", (title,))
+            while True:
+                row = self.cursor.fetchone()
+                if row == None:
+                    break
+                g = game.Game(row[7], dict(title=row[1], platform=row[3]),
+                              objID=row[0])
+                games_list.append(g)
+        if games_list:
+            return games_list
+        if not games_list or override_db:
+            games_list = super(GameFaqsDB, self).search_game(title)
+            return games_list
+    
+    def search_company(self, name, override_db=False):
+        """Check local database for company.  If not found, get from web 
+        server.
+        
+        If override_db is False (default), then a database search is performed, 
+        followed by a web based search (if the database search produced no 
+        matches).  If override_db is True, then a web based search is performed
+        in place of the database search.
+        """
+        company_list = []
+        if not override_db:
+            self.cursor.execute("SELECT * FROM Company WHERE company_name = ?", (name,))
+            while True:
+                row = self.cursor.fetchone()
+                if row == None:
+                    break
+                c = company.Company(row[2], dict(name=row[1]), objID=row[0])
+                company_list.append(c)
+        if company_list:
+            return company_list
+        if not company_list or override_db:
+            company_list = super(GameFaqsDB, self).search_company(name)
+            return company_list
+    
+    def update(self, gc, info=["general"]):
+        """Given a Game/Company object with only partial information, retrieve 
+        the required set of information.  
+        
+        If the game object was not obtained via the database, then game object 
+        will be updated via the web server.
+        """
+        idv = gc.get_id()
+        if idv:
+            # then game was obtained from database
+            if isinstance(gc, game.Game):
+                if "general" in info:
+                    self.cursor.execute("""SELECT * FROM Info, Company WHERE gID = ? 
+                                and cID in (SELECT cID FROM Link WHERE gID = ?)""", 
+                                    (idv, idv))
+                    first = True
+                    companies = []
+                    while True:
+                        row = self.cursor.fetchone()
+                        if row == None:
+                            break
+                        if first: 
+                            general = dict(description=row[2], platform_long=row[4],
+                                   release_data=row[5], esrb=row[6])
+                            first = False
+                        companies.append(company.Company(url=row[10], data=dict(name=row[9])))
+                    general["companies"] = companies
+                    gc.set_data(general)
+                if "rating" in info:
+                    self.cursor.execute("""SELECT * FROM Rating WHERE gID = ?""", (idv,))
+                    row = self.cursor.fetchone()
+                    rating = dict(metascore=row[1], user_rating=row[2],
+                                   difficulty=row[3], length=row[4]) 
+                    gc.set_data(rating)
+                if "cheats" in info:
+                    self.cursor.execute("""SELECT * FROM Codes WHERE gID = ?""", (idv,))
+                    cheat = {}
+                    codes = []
+                    while True:
+                        row = self.cursor.fetchone()
+                        if row == None:
+                            break
+                        codes.append(cheats.Code(row[1], row[2]))
+                    cheat["codes"] = codes
+                    self.cursor.execute("""SELECT * FROM Unlockables WHERE gID = ?""", (idv,))
+                    unlockables = []
+                    while True:
+                        row = self.cursor.fetchone()
+                        if row == None:
+                            break
+                        unlockables.append(cheats.Unlockable(row[1], row[2]))
+                    cheat["unlockables"] = unlockables
+                    gc.set_data(cheat)
+            elif isinstance(gc, company.Company):
+                if "general" in info:
+                    self.cursor.execute("""SELECT gID, title, platform, Info.url 
+                                        FROM Company, Info WHERE cID = ? and gID 
+                                        in (SELECT gID FROM Link WHERE cID = ?)""", 
+                                        (idv, idv))
+                    general = {}
+                    games = []
+                    while True:
+                        row = self.cursor.fetchone()
+                        if row == None:
+                            break
+                        games.append(game.Game(row[3], dict(title=row[1], platform=row[2]),
+                                                   objID=row[0]))
+                    general["games"] = games
+                    gc.set_data(general)
+    
+        else:
+             # then the game was obtained from web server        
+            super(GameFaqsDB, self).update(gc, info) 
+                   
+    def disconnect(self):
+        """Close cursor object and database connection."""
+        self.cursor.close()
+        self.db.close()
+
     
     
     
