@@ -57,14 +57,14 @@ class Game(_Container):
                     cheats=["codes", "unlockables"])
                     
     def summary(self):
-        "Detailed view of the Game object"
+        "Print a detailed view of the Game object"
         print self.__str__()
         if self.has_current_info("general"):    
            length = len(self.data["companies"])
            company_str = ""
            for i in range(length):
                if i == (length - 1):
-                   company_str += self.data["companies"][i]
+                   company_str += self.data["companies"][i]["name"]
                else:
                    company_str += self.data["companies"][i]["name"] + ", "        
            print "\n{co}\n{rd}\n{eb}\nMetaScore: {ms}\n{d}".format(co=company_str,
