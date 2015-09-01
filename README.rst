@@ -32,6 +32,14 @@ or installable via ``git clone`` and ``setup.py``
     git clone https://github.com/ryantonini/gamefaqs-py
     sudo python setup.py install
 
+The application now supports database access.  The new access system runs queries with speed and efficiency.  To use the database system, run the following script upon installation:
+
+    python /path/to/run_load.py
+
+The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.
+
+NOTE: Currently, the database contains minimal game support.  Updates are pending.
+
 Usage
 -----
 
