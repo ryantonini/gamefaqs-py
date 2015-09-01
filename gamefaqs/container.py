@@ -33,10 +33,11 @@ class _Container(object):
     # all mappings of infoset -> keys
     mappings = dict()
     
-    def __init__(self, url, data):
+    def __init__(self, url, data, objID=None):
         self.url = url
         self.set_data(data, override=True)
         self.current_info = ["main"]
+        self._objID = objID
     
     def set_data(self, data, override=False):
         """Set the game data to the given dictionary. If override is
@@ -77,6 +78,14 @@ class _Container(object):
         else:
             return False
     
+    def get_id(self):
+        """Return object id."""
+        return self._objID
+        
+    def set_id(self, Id):
+        """Set object id."""
+        self._objID = Id
+        
     def get_class_name(self):
         """Return the class name."""
         return self.__class__.__name__
