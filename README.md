@@ -34,7 +34,7 @@ The application now supports database access.  The new access system runs querie
 
 The script will create a SQLite database file in the current working directory containing data loaded from http://www.gamefaqs.com/.
 
-NOTE: Currently, the database contains minimal game support.  Updates are pending.
+NOTE: Version 0.2.6 features database game support from all the popular platforms.
 
 Usage
 -----
