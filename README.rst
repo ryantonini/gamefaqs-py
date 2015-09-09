@@ -51,6 +51,8 @@ A code example:
 .. code:: python
 
     from gamefaqs import access
+    
+    # using the http access system (default)
     gf_access = access.GameFaqs()
     
     first_game = gf_access.search_game("Metal Gear Solid: Peace Walker")[0]
