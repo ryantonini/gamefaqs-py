@@ -7,7 +7,7 @@ db_filename = 'gamefaqs.db'
 # create sqlite database and load schema
 def load_data():
     with sqlite3.connect(db_filename) as con:
-        with open(os.path.join(here, 'data', 'db_schema.sql'), 'r') as f:
+        with open(os.path.join(here, 'data', 'gamefaqs.sql'), 'r') as f:
             sql = f.read()
             con.executescript(sql)
     con.close()
