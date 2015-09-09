@@ -43,6 +43,7 @@ A code example:
 
 ```python
     from gamefaqs import access
+    
     # using the http access system (default)
     gf_access = access.GameFaqs()
     
