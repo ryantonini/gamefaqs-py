@@ -6,7 +6,7 @@ keywords = ["game", "company", "cheats", "web", "http", "database",
             "scraper", "data", "api", "package"]
 setup(
     name='gamefaqs-py',
-    version='0.2.7',
+    version='0.2.8',
     author='Ryan Tonini',
     author_email ='ryantonini@yahoo.com',
     packages=['gamefaqs'],
@@ -17,7 +17,7 @@ setup(
     keywords=keywords,
     package_data={'gamefaqs': ['data/gamefaqs.sql']},
     scripts=['scripts/run_load.py'],
-    install_requires=['BeautifulSoup==4.3.2', 'requests==2.7.0'],
+    install_requires=['BeautifulSoup4', 'requests==2.7.0'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
