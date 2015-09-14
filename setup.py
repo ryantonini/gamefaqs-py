@@ -6,7 +6,7 @@ keywords = ["game", "company", "cheats", "web", "http", "database",
             "scraper", "data", "api", "package"]
 setup(
     name='gamefaqs-py',
-    version='0.2.6',
+    version='0.2.7',
     author='Ryan Tonini',
     author_email ='ryantonini@yahoo.com',
     packages=['gamefaqs'],
