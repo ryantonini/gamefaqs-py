@@ -1,5 +1,5 @@
 """
-Access to GameFaqs web server to search game/company info.
+Access to GameFaqs web server/db to search game/company info.
 
 Copyright (C) 2015  Ryan Tonini
 
