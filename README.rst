@@ -72,5 +72,5 @@ A code example:
 License
 -------
 
-GNU General Public License Version 3.  See LICENSE for more details.
+GNU General Public License Version 3.   See LICENSE for more details.
     
