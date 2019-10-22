@@ -17,7 +17,7 @@ setup(
     keywords=keywords,
     package_data={'gamefaqs': ['data/gamefaqs.sql']},
     scripts=['scripts/run_load.py'],
-    install_requires=['BeautifulSoup4', 'requests==2.7.0'],
+    install_requires=['BeautifulSoup4', 'requests==2.20.0'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
